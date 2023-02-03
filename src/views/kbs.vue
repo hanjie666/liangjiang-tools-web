@@ -12,7 +12,7 @@
         <p>本站目前已支持邮箱提交，手机号提交</p>
         <div style="display: inline-block; margin-top: 5px">
           <el-button type="primary" round @click="help">使用教程</el-button>
-          <!--          <el-button type="danger" round>联系客服</el-button>-->
+          <el-button type="danger" round @click="showUrl">卡密购买</el-button>
         </div>
         <el-tabs v-model="activeName" style="margin-top: 10px" @tab-click="handleClick">
           <el-tab-pane label="手动" name="手动">
@@ -132,13 +132,25 @@ export default {
     }
   },
   methods: {
+    showUrl() {
+      if (!this.recharge.user) {
+        Notification.error({
+          title: '请点击充值选项并输入邮箱/手机号',
+          duration: 3000
+        })
+      } else {
+        getHelpUser(this.helpUser.user).then(res => {
+          this.helpMessage = res
+          window.location.href = this.helpMessage.codeUrl
+        })
+      }
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     },
     getHelpUser() {
       getHelpUser(this.helpUser.user).then(res => {
         this.helpMessage = res
-        console.log(res)
       })
     },
     manualStep() {

@@ -9,6 +9,10 @@
         <el-input v-model="form.qq" style="width: 35%;" />
         <span style="color: #C0C0C0;margin-left: 10px;">客服qq</span>
       </el-form-item>
+      <el-form-item label="发卡网" prop="codeUrl">
+        <el-input v-model="form.codeUrl" style="width: 35%;" />
+        <span style="color: #C0C0C0;margin-left: 10px;">发卡网地址</span>
+      </el-form-item>
       <el-form-item label="">
         <el-button size="mini" type="primary" @click="doSubmit">保存配置</el-button>
       </el-form-item>

@@ -33,7 +33,7 @@ export function get() {
 
 export function getHelpUser(data) {
   return request({
-    url: 'api/ljToolsKbsSetting/helpUser/' + data,
+    url: 'api/ljToolsKbsSetting/helpUser?phone=' + data,
     method: 'get'
   })
 }
