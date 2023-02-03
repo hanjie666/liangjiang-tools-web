@@ -11,7 +11,7 @@
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
-      <crudOperation :permission="permission" >
+      <crudOperation :permission="permission">
         <template v-slot:right>
           <el-button
             class="filter-item"
@@ -21,7 +21,7 @@
           >批量生成卡密</el-button>
         </template>
       </crudOperation>
-      <el-dialog :close-on-click-modal="false"  :visible.sync="showAdd" title="批量添加卡密" width="500px">
+      <el-dialog :close-on-click-modal="false" :visible.sync="showAdd" title="批量添加卡密" width="500px">
         <el-form ref="addData" :model="addData" :rules="rules" size="small" label-width="80px">
           <el-form-item label="天数">
             <el-input v-model="addData.day" style="width: 370px;" />
@@ -29,7 +29,16 @@
           <el-form-item label="数量">
             <el-input v-model="addData.num" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="数量">
+            <el-input
+              v-model="textarea"
+              type="textarea"
+              :rows="10"
+              placeholder=""
+            />
+          </el-form-item>
         </el-form>
+        <el-button type="primary" @click="create">生成</el-button>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="showAdd = false">取消</el-button>
           <el-button type="primary" @click="addRecharge">确认</el-button>
@@ -95,6 +104,8 @@ export default {
   },
   data() {
     return {
+      textarea: '',
+      // textarea: undefined,
       addData: {
         day: 3,
         num: 1
@@ -118,11 +129,17 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       return true
     },
-    addRecharge() {
+    create() {
+      this.textarea = ''
       crudLjToolsKbsRecharge.batchCreate(this.addData).then(res => {
-        this.showAdd = false
-        this.crud.refresh()
+        for (let i = 0; i < res.length; i++) {
+          this.textarea = this.textarea + res[i] + '\n'
+        }
       })
+    },
+    addRecharge() {
+      this.showAdd = false
+      this.crud.refresh()
     }
   }
 }
