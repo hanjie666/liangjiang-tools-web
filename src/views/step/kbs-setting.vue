@@ -13,6 +13,10 @@
         <el-input v-model="info.codeUrl" style="width: 35%;" />
         <span style="color: #C0C0C0;margin-left: 10px;">发卡网地址</span>
       </el-form-item>
+      <el-form-item label="教程" prop="codeUrl">
+        <el-input v-model="info.helpUrl" style="width: 35%;" />
+        <span style="color: #C0C0C0;margin-left: 10px;">刷步教程</span>
+      </el-form-item>
       <el-form-item>
         <el-button size="mini" type="primary" @click="doSubmit">保存配置</el-button>
       </el-form-item>
@@ -31,7 +35,8 @@ export default {
       info: {
         wx: '',
         qq: '',
-        codeUrl: ''
+        codeUrl: '',
+        helpUrl: ''
       }
     }
   },
