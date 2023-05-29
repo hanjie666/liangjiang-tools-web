@@ -47,7 +47,7 @@ export default {
           // 配置上传图片
           uploadImage: {
             fieldName: 'file',
-            server: 'http://159.75.125.115:8000/api/ljToolsArticle/upload'
+            server: 'http://43.156.235.28:8000/api/ljToolsArticle/upload'
             // meta: {
             //   Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIzMjc1NTI5NGY1Y2Y0YWJhOGRjNThjM2I5MDM0MTUzOCIsInVzZXIiOiJhZG1pbiIsInN1YiI6ImFkbWluIn0.gDrzXbvehZWWBVf2vqNvPIotyOPBgO9e9ovhM4VT-BWa-viVsOPdxWj0f01K59aKJ-PAdPzYi_GyB3k84vPohA'
             // }

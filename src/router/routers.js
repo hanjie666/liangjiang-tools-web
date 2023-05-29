@@ -18,6 +18,12 @@ export const constantRouterMap = [
     hidden: true
   },
   {
+    path: '/cloud',
+    meta: { title: '网易云工具' },
+    component: (resolve) => require(['@/views/music'], resolve),
+    hidden: true
+  },
+  {
     path: '/login',
     meta: { title: '登录', noCache: true },
     component: (resolve) => require(['@/views/login'], resolve),
