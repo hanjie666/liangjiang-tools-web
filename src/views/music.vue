@@ -42,7 +42,7 @@
         </div>
         <div class="info-row">
           <div class="info-title">升级还需签到</div>
-          <div class="info-value">{{ userInfo.nextLoginCount }} 天</div>
+          <div class="info-value">{{ (userInfo.nextLoginCount - userInfo.nowLoginCount) }} 天</div>
         </div>
         <el-divider />
         <div class="info-row">

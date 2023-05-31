@@ -105,7 +105,12 @@ export default {
       },
       queryTypeOptions: [
         { key: 'token', display_name: 'token' }
-      ]
+      ],
+      addData: {
+        day: 30,
+        num: 10
+      },
+      textarea: ''
     }
   },
   methods: {
