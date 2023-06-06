@@ -16,7 +16,7 @@
           <div class="info-value">{{ userInfo.finishNum }} 首</div>
         </div>
         <div class="info-row">
-          <div class="info-title">已连续登录</div>
+          <div class="info-title">任务已进行了</div>
           <div class="info-value">{{ userInfo.nowLoginCount }} 天</div>
         </div>
         <div class="info-row">
@@ -26,7 +26,7 @@
         <el-divider />
         <div class="info-row">
           <div class="info-title">下单前听歌量</div>
-          <div class="info-value">{{ prevListen }} 首</div>
+          <div class="info-value">{{ userInfo.nowPlayCount }} 首</div>
         </div>
         <div class="info-row">
           <div class="info-title">现在的听歌量</div>
@@ -41,13 +41,13 @@
           <div class="info-value">{{ userInfo.nextPlayCount }} 首</div>
         </div>
         <div class="info-row">
-          <div class="info-title">升级还需签到</div>
+          <div class="info-title">升级还需登录</div>
           <div class="info-value">{{ (userInfo.nextLoginCount - userInfo.nowLoginCount) }} 天</div>
         </div>
         <el-divider />
         <div class="info-row">
           <div class="info-title">最近执行日期</div>
-          <div class="info-value">{{ executeDate }}</div>
+          <div class="info-value">{{ userInfo.dateUpdated }}</div>
         </div>
         <div class="info-row" :class="{ 'font-weight-bold': true, 'text-danger': true }">
           <div class="info-title">说明信息(必读)</div>
@@ -57,7 +57,7 @@
     </div>
     <el-row v-if="!loginSuccess" :gutter="10" style="width:100%; height:100%; display: flex; align-items:center;justify-content: center;">
       <el-col :xs="22" :sm="22" :md="22" :lg="16" :xl="12">
-        <el-card class="box-card" style="text-align: center;">
+        <el-card v-loading="userinfoLoading" class="box-card" style="text-align: center;">
           <el-tabs v-model="activeName" style="margin-top: 10px">
             <el-tab-pane label="扫码登录" name="扫码登录">
               <el-image v-show="qrCode != ''" :src="qrCode" style="width: 200px; height: 200px; display: block; margin: 0 auto;" fit="cover" />
@@ -82,6 +82,7 @@ export default {
   name: 'Music',
   data() {
     return {
+      userinfoLoading: true,
       userInfo: {},
       loginSuccess: false,
       activeName: '扫码登录',
@@ -104,14 +105,6 @@ export default {
   },
   mounted() {
     this.token = this.$route.query.token || ''
-    if (localStorage.getItem('user') != null) {
-      this.manual.user = localStorage.getItem('user')
-      this.manual.password = localStorage.getItem('password')
-      this.auto.user = localStorage.getItem('user')
-      this.auto.password = localStorage.getItem('password')
-      this.recharge.user = localStorage.getItem('user')
-      this.helpUser.user = localStorage.getItem('user')
-    }
     this.$nextTick(() => {
       this.getTaskInfo()
     })
@@ -141,12 +134,16 @@ export default {
             title: response.data,
             duration: 3000
           })
+          if (response.data === '授权登陆成功') {
+            this.getTaskInfo()
+          }
         })
         .catch(error => {
           console.log(error)
         })
     },
     getTaskInfo() {
+      this.userinfoLoading = true
       service.get('/api/music/userTask/' + this.token)
         .then(response => {
           if (response.data.musicUserId > 0) {
@@ -159,6 +156,7 @@ export default {
         .catch(error => {
           console.log(error)
         })
+      this.userinfoLoading = false
     }
   }
 }

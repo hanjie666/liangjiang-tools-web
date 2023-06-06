@@ -58,7 +58,6 @@
         <el-table-column prop="status" label="状态" />
         <el-table-column prop="totalNum" label="总数量" />
         <el-table-column prop="finishNum" label="完成时间" />
-        <el-table-column prop="taskRunDay" label="任务运行时间" />
         <el-table-column prop="dateCreated" label="创建时间" />
         <el-table-column prop="dateUpdated" label="更新时间" />
         <el-table-column prop="sellLink" label="售卖链接" />
@@ -96,9 +95,9 @@ export default {
   data() {
     return {
       permission: {
-        add: ['admin', 'ljToolsCloudMusic:add'],
-        edit: ['admin', 'ljToolsCloudMusic:edit'],
-        del: ['admin', 'ljToolsCloudMusic:del']
+        add: [],
+        edit: [],
+        del: []
       },
       showAdd: false,
       rules: {
