@@ -21,7 +21,7 @@
       </crudOperation>
       <el-dialog :close-on-click-modal="false" :visible.sync="showAdd" title="批量添加卡密" width="500px">
         <el-form ref="addData" :model="addData" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="天数">
+          <el-form-item label="听歌数量">
             <el-input v-model="addData.day" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="数量">
@@ -56,8 +56,8 @@
         <el-table-column prop="id" label="ID" />
         <el-table-column prop="token" label="token" />
         <el-table-column prop="status" label="状态" />
-        <el-table-column prop="totalNum" label="总数量" />
-        <el-table-column prop="finishNum" label="完成时间" />
+        <el-table-column prop="totalNum" label="卡密听歌数量" />
+        <el-table-column prop="finishNum" label="已听数量" />
         <el-table-column prop="dateCreated" label="创建时间" />
         <el-table-column prop="dateUpdated" label="更新时间" />
         <el-table-column prop="sellLink" label="售卖链接" />

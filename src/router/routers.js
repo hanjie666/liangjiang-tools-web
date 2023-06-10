@@ -12,6 +12,12 @@ export const constantRouterMap = [
     hidden: true
   },
   {
+    path: '/qt',
+    meta: { title: '快步数' },
+    component: (resolve) => require(['@/views/qt'], resolve),
+    hidden: true
+  },
+  {
     path: '/sb',
     meta: { title: '快步数' },
     component: (resolve) => require(['@/views/kbs'], resolve),

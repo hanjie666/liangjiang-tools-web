@@ -26,6 +26,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    disableHostCheck: true,
     proxy: {
       '/api': {
         target: process.env.VUE_APP_BASE_API,

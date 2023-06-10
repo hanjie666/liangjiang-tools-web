@@ -26,11 +26,11 @@
         <el-divider />
         <div class="info-row">
           <div class="info-title">下单前听歌量</div>
-          <div class="info-value">{{ userInfo.nowPlayCount }} 首</div>
+          <div class="info-value">{{ userInfo.userBeforeNum }} 首</div>
         </div>
         <div class="info-row">
           <div class="info-title">现在的听歌量</div>
-          <div class="info-value">{{ userInfo.nowPlayCount }} 首</div>
+          <div class="info-value">{{ userInfo.userBeforeNum + userInfo.finishNum }} 首</div>
         </div>
         <div class="info-row">
           <div class="info-title">您的当前等级</div>
