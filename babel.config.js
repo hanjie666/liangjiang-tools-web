@@ -4,7 +4,15 @@ if (process.env.NODE_ENV === 'production') {
   plugins.push('transform-remove-console')
 }
 module.exports = {
-  plugins: plugins,
+  plugins: [
+    '@vue/babel-plugin-transform-vue-jsx',
+    'transform-remove-console',
+    ['import', {
+      libraryName: 'vant',
+      libraryDirectory: 'es',
+      style: true
+    }, 'vant']
+  ],
   presets: [
     '@vue/app'
   ]

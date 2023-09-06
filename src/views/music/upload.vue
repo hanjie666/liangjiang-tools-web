@@ -4,8 +4,8 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <label class="el-form-item-label">token</label>
-        <el-input v-model="query.token" clearable placeholder="token" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">网易云用户cookie</label>
+        <el-input v-model="query.cookie" clearable placeholder="网易云用户cookie" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
@@ -16,18 +16,12 @@
             size="mini"
             icon="el-icon-download"
             @click="showAdd = true"
-          >批量生成卡密</el-button>
+          >批量导入</el-button>
         </template>
       </crudOperation>
       <el-dialog :close-on-click-modal="false" :visible.sync="showAdd" title="批量添加卡密" width="500px">
         <el-form ref="addData" :model="addData" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="听歌数量">
-            <el-input v-model="addData.day" style="width: 370px;" />
-          </el-form-item>
-          <el-form-item label="生成数量">
-            <el-input v-model="addData.num" style="width: 370px;" />
-          </el-form-item>
-          <el-form-item label="返回结果">
+          <el-form-item label="cookie">
             <el-input
               v-model="textarea"
               type="textarea"
@@ -36,10 +30,9 @@
             />
           </el-form-item>
         </el-form>
-        <el-button type="primary" @click="create">生成</el-button>
+        <el-button type="primary" style="float:right;" @click="importCookie">一键导入</el-button>
         <div slot="footer" class="dialog-footer">
-          <el-button type="text" @click="showAdd = false">取消</el-button>
-          <el-button type="primary" @click="addRecharge">确认</el-button>
+          <el-button type="text" @click="showAdd = false">关闭界面</el-button>
         </div>
       </el-dialog>
       <!--表单组件-->
@@ -53,14 +46,7 @@
       <!--表格渲染-->
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="id" label="ID" />
-        <el-table-column prop="token" label="token" />
-        <el-table-column prop="status" label="听歌状态" />
-        <el-table-column prop="totalNum" label="卡密听歌数量" />
-        <el-table-column prop="finishNum" label="已听数量" />
-        <el-table-column prop="dateCreated" label="创建时间" />
-        <el-table-column prop="dateUpdated" label="更新时间" />
-        <el-table-column prop="sellLink" label="售卖链接" />
+        <el-table-column prop="cookie" label="网易云用户cookie" />
         <el-table-column label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -77,39 +63,40 @@
 </template>
 
 <script>
-import crudLjToolsCloudMusic from '@/api/ljToolsCloudMusic'
+import crudLjToolsCloudMusicUpload from '@/api/ljToolsCloudMusicUpload'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import { Notification } from 'element-ui'
 
 const defaultForm = { id: null, token: null, cookie: null, musicUserId: null, status: null, totalNum: null, finishNum: null, taskRunDay: null, dateCreated: null, dateUpdated: null, sellLink: null, userId: null }
 export default {
-  name: 'LjToolsCloudMusic',
+  name: 'LjToolCloudMusicUpload',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '网易云', url: 'api/ljToolsCloudMusic', idField: 'id', sort: 'id,desc', crudMethod: { ...crudLjToolsCloudMusic }})
+    return CRUD({ title: '网易云', url: 'api/ljToolsCloudMusic/upload', idField: 'id', sort: 'id,desc', crudMethod: { ...crudLjToolsCloudMusicUpload }})
   },
   data() {
     return {
+      textarea: '',
+      addData: {
+        day: 300,
+        num: 10
+      },
+      showAdd: false,
       permission: {
         add: [],
         edit: [],
         del: []
       },
-      showAdd: false,
       rules: {
       },
       queryTypeOptions: [
-        { key: 'token', display_name: 'token' }
-      ],
-      addData: {
-        day: 300,
-        num: 10
-      },
-      textarea: ''
+        { key: 'cookie', display_name: '网易云用户cookie' }
+      ]
     }
   },
   methods: {
@@ -117,17 +104,13 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       return true
     },
-    create() {
-      this.textarea = ''
-      crudLjToolsCloudMusic.batchCreate(this.addData).then(res => {
-        for (let i = 0; i < res.length; i++) {
-          this.textarea = this.textarea + res[i] + '\n'
-        }
+    importCookie() {
+      crudLjToolsCloudMusicUpload.importCookie({ cookie: this.textarea }).then(res => {
+        Notification.success({
+          title: '导入完成',
+          duration: 3000
+        })
       })
-    },
-    addRecharge() {
-      this.showAdd = false
-      this.crud.refresh()
     }
   }
 }

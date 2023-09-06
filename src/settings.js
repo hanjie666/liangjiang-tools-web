@@ -2,7 +2,7 @@ module.exports = {
   /**
    * @description 网站标题
    */
-  title: '良匠工具箱',
+  title: '',
   /**
    * @description 是否显示 tagsView
    */

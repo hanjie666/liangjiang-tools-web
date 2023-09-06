@@ -12,9 +12,15 @@ export const constantRouterMap = [
     hidden: true
   },
   {
-    path: '/qt',
-    meta: { title: '快步数' },
-    component: (resolve) => require(['@/views/qt'], resolve),
+    path: '/sbe',
+    meta: { title: '赛波尔代挂' },
+    component: (resolve) => require(['@/views/sbe'], resolve),
+    hidden: true
+  },
+  {
+    path: '/qmx',
+    meta: { title: '启明星代挂' },
+    component: (resolve) => require(['@/views/qmx'], resolve),
     hidden: true
   },
   {
@@ -25,7 +31,7 @@ export const constantRouterMap = [
   },
   {
     path: '/cloud',
-    meta: { title: '网易云工具' },
+    meta: { title: '网易云升级系统' },
     component: (resolve) => require(['@/views/music'], resolve),
     hidden: true
   },
